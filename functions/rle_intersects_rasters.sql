@@ -21,19 +21,25 @@ BEGIN
     AND (realm IS null OR realm = l.realm_id)
     AND (biome IS null OR biome = l.biome_id)
     AND (layer IS null OR layer = l.id)
-    AND l.id IN (
-    	SELECT DISTINCT intersected.lid
-    	FROM (
-    		SELECT ST_Intersection(rt.rast, 1, poly) AS geomval,
-    		rt.layer_id AS lid
-    		FROM raster_tiles_x AS rt
-    	) AS intersected
-    	WHERE (
-        (occurr IS null AND cast((intersected.geomval).val as integer) IS NOT null)
-        OR
-        occurr = cast((intersected.geomval).val as integer)
-      )
-    );
+    AND EXISTS (
+  		SELECT 1
+  		FROM raster_tiles_x as rtx
+  		WHERE rtx.layer_id = l.id
+  		AND ST_Intersects(rtx.rast,1, poly)
+  	)
+    AND (
+      occurr IS null
+      OR
+      l.id IN (
+      	SELECT DISTINCT intersected.lid
+      	FROM (
+      		SELECT ST_Intersection(rt.rast, 1, poly) AS geomval,
+      		rt.layer_id AS lid
+      		FROM raster_tiles_x AS rt
+      	) AS intersected
+      	WHERE occurr = CAST((intersected.geomval).val as integer)
+    )
+  );
 END;
 $function$;
 COMMENT ON FUNCTION rle_intersects_rasters IS 'Query raster layers that intersect with given polygon';
