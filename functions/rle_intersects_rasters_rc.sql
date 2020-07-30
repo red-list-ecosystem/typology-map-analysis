@@ -12,10 +12,10 @@ LANGUAGE plpgsql
 AS $function$
 DECLARE
   poly Geometry;
-  reclassargs varchar;
+
 BEGIN
   poly := ST_GeomFromText(polygonWKT, 4326);
-  reclassargs := CONCAT(occurr, ':1');
+
   RETURN QUERY
     SELECT l.id
     FROM layers AS l
@@ -37,7 +37,7 @@ BEGIN
           OR (
             occurr IS not null
             AND
-            ST_Intersects(ST_Reclass(rtx.rast,1,reclassargs,'1BB',0),1,poly)
+            ST_Intersects(ST_Reclass(rtx.rast,1,CONCAT(occurr, ':1'),'1BB',0),1,poly)
           )
       )
     );
