@@ -25,8 +25,8 @@ BEGIN
       SELECT 1
       FROM vector_features as vf
       WHERE vf.layer_id = layers.id
-      AND(occurr IS null OR occurr = vf.occurrence)
-      AND	ST_INTERSECTS(vf.wkb_geometry, poly)
+      AND (occurr IS null OR occurr = vf.occurrence)
+      AND ST_INTERSECTS(vf.wkb_geometry, poly)
     );
 END;
 $function$;
