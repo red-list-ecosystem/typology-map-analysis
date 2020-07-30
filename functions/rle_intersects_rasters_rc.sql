@@ -28,7 +28,7 @@ BEGIN
         SELECT 1
         FROM raster_tiles_x as rtx
         WHERE rtx.layer_id = l.id
-        AND
+        AND (
           (
             occurr IS null
             AND
@@ -39,6 +39,7 @@ BEGIN
             AND
             ST_Intersects(ST_Reclass(rtx.rast,1,CONCAT(occurr, ':1'),'1BB',0),1,poly)
           )
+        )
       )
     );
 END;
