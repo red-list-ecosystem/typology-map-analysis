@@ -15,18 +15,18 @@ DECLARE
 BEGIN
   poly := ST_GeomFromText(polygonWKT, 4326);
   RETURN QUERY
-    SELECT layers.id
-    FROM layers
-    WHERE layers.layer_type = 'vector'
-    AND (realm IS null OR realm = layers.realm_id)
-    AND (biome IS null OR biome = layers.biome_id)
-    AND (layer IS null OR layer = layers.id)
+    SELECT l.id
+    FROM layers as l
+    WHERE l.layer_type = 'vector'
+    AND (realm IS null OR realm = l.realm_id)
+    AND (biome IS null OR biome = l.biome_id)
+    AND (layer IS null OR layer = l.id)
     AND EXISTS (
       SELECT 1
       FROM vector_features as vf
-      WHERE vf.layer_id = layers.id
+      WHERE vf.layer_id = l.id
       AND (occurr IS null OR occurr = vf.occurrence)
-      AND ST_INTERSECTS(vf.wkb_geometry, poly)
+      AND ST_Intersects(vf.wkb_geometry, poly)
     );
 END;
 $function$;
