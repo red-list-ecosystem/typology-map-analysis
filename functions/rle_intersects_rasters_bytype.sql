@@ -22,11 +22,11 @@ BEGIN
     AND (biome IS null OR biome = l.biome_id)
     AND (layer IS null OR layer = l.id)
     AND EXISTS (
-        SELECT 1
-        FROM raster_tiles_bytype AS rt
-        WHERE rt.layer_id = l.id
-        AND (occurr IS null OR occurr = rt.occurrence)
-        AND ST_Intersects(rt.rast, 1, poly)
+      SELECT 1
+      FROM raster_tiles_bytype AS rt
+      WHERE rt.layer_id = l.id
+      AND (occurr IS null OR occurr = rt.occurrence)
+      AND ST_Intersects(rt.rast, 1, poly)
     );
 END;
 $function$;
