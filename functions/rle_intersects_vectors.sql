@@ -23,10 +23,13 @@ BEGIN
     AND (layer IS null OR layer = l.id)
     AND EXISTS (
       SELECT 1
-      FROM vector_features as vf
-      WHERE vf.layer_id = l.id
-      AND (occurr IS null OR occurr = vf.occurrence)
-      AND ST_Intersects(vf.wkb_geometry, poly)
+      FROM (
+        SELECT wkb_geometry
+        FROM vector_features as v
+        WHERE v.layer_id = l.id
+        AND (occurr IS null OR occurr = v.occurrence)
+      ) as vf
+      WHERE ST_Intersects(vf.wkb_geometry, poly)
     );
 END;
 $function$;
