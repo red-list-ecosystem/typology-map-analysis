@@ -12,10 +12,10 @@ LANGUAGE plpgsql
 AS $function$
 DECLARE
   poly Geometry;
-
+  reclassargs varchar;
 BEGIN
   poly := ST_GeomFromText(polygonWKT, 4326);
-
+  reclassargs := CONCAT(occurr, ':1');
   RETURN QUERY
     SELECT l.id
     FROM layers AS l
@@ -24,20 +24,27 @@ BEGIN
     AND (biome IS null OR biome = l.biome_id)
     AND (layer IS null OR layer = l.id)
     AND (
-      EXISTS (
-        SELECT 1
-        FROM raster_tiles_x as rtx
-        WHERE rtx.layer_id = l.id
-        AND (
-          (
-            occurr IS null
-            AND
-            ST_Intersects(rtx.rast,1, poly)
-          )
-          OR (
-            occurr IS not null
-            AND
-            ST_Intersects(ST_Reclass(rtx.rast,1,CONCAT(occurr, ':1'),'1BB',0),1,poly)
+      (
+        occurr IS null
+        AND
+        EXISTS (
+          SELECT 1
+          FROM raster_tiles_x AS rtx
+          WHERE rtx.layer_id = l.id
+          AND ST_Intersects(rtx.rast, 1, poly)
+        )
+      )
+      OR (
+        occurr IS not null
+        AND
+        EXISTS (
+          SELECT 1
+          FROM raster_tiles_x AS rtx
+          WHERE rtx.layer_id = l.id
+          AND ST_Intersects(
+            ST_Reclass(rtx.rast, 1, reclassargs, '1BB', 0),
+            1,
+            poly
           )
         )
       )
