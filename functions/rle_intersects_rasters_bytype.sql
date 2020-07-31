@@ -23,10 +23,13 @@ BEGIN
     AND (layer IS null OR layer = l.id)
     AND EXISTS (
       SELECT 1
-      FROM raster_tiles_bytype AS rt
-      WHERE rt.layer_id = l.id
-      AND (occurr IS null OR occurr = rt.occurrence)
-      AND ST_Intersects(rt.rast, 1, poly)
+      FROM (
+        SELECT rast
+        FROM raster_tiles_bytype as r
+        WHERE r.layer_id = l.id
+        AND (occurr IS null OR occurr = r.occurrence)
+      ) as rt
+      WHERE ST_Intersects(rt.rast, 1, poly)
     );
 END;
 $function$;
