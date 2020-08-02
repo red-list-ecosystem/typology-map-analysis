@@ -7,7 +7,6 @@ returns boolean
 language plpgsql
 as $function$
 declare
-	rt RECORD;
 	res boolean;
 	tile raster;
 begin
