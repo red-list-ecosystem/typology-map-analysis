@@ -13,7 +13,7 @@ AS $function$
 DECLARE
   poly Geometry;
 BEGIN
-  poly := ST_GeomFromText(polygonWKT, 4326);
+  poly := rle_wrap_polygon(ST_GeomFromText(polygonWKT, 4326));
   RETURN QUERY
     SELECT l.id
     FROM layers AS l
