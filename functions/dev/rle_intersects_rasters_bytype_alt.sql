@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS rle_intersects_rasters_bytype;
+DROP FUNCTION IF EXISTS rle_intersects_rasters_bytype_alt;
 
-CREATE OR REPLACE FUNCTION rle_intersects_rasters_bytype(
+CREATE OR REPLACE FUNCTION rle_intersects_rasters_bytype_alt(
   polygonWKT text,
   realm varchar,
   biome varchar,
@@ -34,4 +34,4 @@ BEGIN
     );
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersects_rasters_bytype IS 'Query raster layers that intersect with given polygon';
+COMMENT ON FUNCTION rle_intersects_rasters_bytype_alt IS 'Query raster layers that intersect with given polygon';

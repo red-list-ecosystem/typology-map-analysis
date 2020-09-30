@@ -21,7 +21,7 @@ BEGIN
     AND (realm IS null OR realm = l.realm_id)
     AND (biome IS null OR biome = l.biome_id)
     AND (layer IS null OR layer = l.id)
-    AND rle_intersects_layer(l.id, poly, occur);
+    AND rle_intersects_layer(l.id, poly, occurr);
 END;
 $function$;
 COMMENT ON FUNCTION rle_intersects_rasters_bytype_alt2 IS 'Query raster layers that intersect with given polygon';
