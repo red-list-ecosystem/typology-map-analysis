@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS rle_intersects_vectors;
 
 CREATE OR REPLACE FUNCTION rle_intersects_vectors(
-  polygonWKT text,
+  poly Geometry,
   realm varchar,
   biome varchar,
   layer varchar,
@@ -10,10 +10,7 @@ CREATE OR REPLACE FUNCTION rle_intersects_vectors(
 RETURNS TABLE (layer_id varchar)
 LANGUAGE plpgsql
 AS $function$
-DECLARE
-  poly Geometry;
 BEGIN
-  poly := rle_wrap_polygon(ST_GeomFromText(polygonWKT, 4326));
   RETURN QUERY
     SELECT l.id
     FROM layers as l
@@ -33,4 +30,4 @@ BEGIN
     );
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersects_vectors IS 'Query vector layers that intersect with given polygon';
+COMMENT ON FUNCTION rle_intersects_vectors IS 'Query vector layers that intersect with given polygon geometry';
