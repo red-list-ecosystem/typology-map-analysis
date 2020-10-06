@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS rle_intersects_vectors_eez;
 
 CREATE OR REPLACE FUNCTION rle_intersects_vectors_eez(
-  eezid numeric,
+  regionid numeric,
   realm varchar,
   biome varchar,
   layer varchar,
@@ -13,7 +13,7 @@ AS $function$
 DECLARE
   poly Geometry;
 BEGIN
-  poly := (SELECT _ogr_geometry_ FROM eez_land_v3_202030 WHERE mrgid_eez = eezid);
+  poly := (SELECT _ogr_geometry_ FROM eez_land_v3_202030 WHERE ogc_fid = regionid);
   RETURN QUERY SELECT * FROM rle_intersects_vectors(poly, realm, biome, layer, occurr);
 END;
 $function$;

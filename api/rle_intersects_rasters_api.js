@@ -12,7 +12,7 @@ exports.handler = async (event) => {
 
     const {
         poly,
-        eezid,
+        regionid,
         realm,
         biome,
         layer,
@@ -24,10 +24,10 @@ exports.handler = async (event) => {
           `SELECT public.rle_intersects_rasters_poly($1::text, $2::varchar, $3::varchar, $4::varchar, $5::int) as layer_id`,
           [ poly, realm, biome, layer, occurrence ]
       );
-    } else if (eezid) {
+    } else if (regionid) {
       result = await client.query(
           `SELECT public.rle_intersects_rasters_eez($1::numeric, $2::varchar, $3::varchar, $4::varchar, $5::int) as layer_id`,
-          [ eezid, realm, biome, layer, occurrence ]
+          [ regionid, realm, biome, layer, occurrence ]
       );
     }
 
@@ -42,6 +42,6 @@ exports.handler = async (event) => {
     }
     return {
       "statusCode":501,
-      "body": "Missing parameters 'poly' (PolygonWKT) or 'eezid' (numeric)"
+      "body": "Missing parameters 'poly' (PolygonWKT) or 'regionid' (numeric)"
     };
 };
