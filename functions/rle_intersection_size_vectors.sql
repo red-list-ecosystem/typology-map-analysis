@@ -18,14 +18,14 @@ BEGIN
     		l.id AS layer_id,
     	  vf.occurrence AS occurrence,
     		SUM (
-    			st_area(
-    				geography(
-    					st_transform(
-    						st_intersection(vf.wkb_geometry, poly),
-    						4326
-    					)
-    				)
-    			) * 0.000001
+          st_area(
+            geography(
+              st_transform(
+                st_intersection(vf.wkb_geometry, poly),
+                4326
+              )
+            )
+          ) * 0.000001
     		) AS area
     	FROM
     		vector_features AS vf,
