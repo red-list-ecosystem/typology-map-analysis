@@ -7,10 +7,8 @@ returns boolean
 language plpgsql
 as $function$
 declare
-	res boolean;
 	tile raster;
 begin
-	res := FALSE;
 	for tile
 	in
 		SELECT rast
@@ -20,10 +18,9 @@ begin
 	loop
 	   if ST_Intersects(tile, 1, poly)
 	   then
-	   		res := TRUE;
-			  exit;
+	   	 RETURN TRUE;
 	   end if;
 	end loop;
-	return res;
+	RETURN FALSE;
 end;
 $function$;

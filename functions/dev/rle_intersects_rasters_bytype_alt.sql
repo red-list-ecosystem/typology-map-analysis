@@ -24,7 +24,7 @@ BEGIN
     AND EXISTS (
       WITH rt AS (
         SELECT rast
-        FROM raster_tiles_bytype as r
+        FROM raster_tiles_bytype_1bb as r
         WHERE r.layer_id = l.id
         AND (occurr IS null OR occurr = r.occurrence)
       )

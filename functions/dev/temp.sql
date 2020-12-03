@@ -26,16 +26,19 @@ BEGIN
         ) * 0.000001
       ) AS area
     FROM (
+		WITH rt AS (
+			SELECT *
+			FROM raster_tiles_bytype_1bb AS rt
+			WHERE rt.layer_id IN (
+				SELECT intersects.layer_id
+            	FROM rle_intersects_rasters(poly, realm, biome, layer, occurr) as intersects
+			)
+		)
         SELECT
           rt.layer_id,
           rt.occurrence,
           st_intersection(rt.rast, 1, poly) AS gval
-        FROM (
-            SELECT intersects.layer_id
-            FROM rle_intersects_rasters(poly, realm, biome, layer, occurr) as intersects
-          ) AS layer_ids,
-          raster_tiles_bytype_1bb AS rt
-        WHERE layer_ids.layer_id = rt.layer_id
+	    FROM rt
       ) AS intersections
     GROUP BY intersections.layer_id, intersections.occurrence
     ORDER BY area DESC;

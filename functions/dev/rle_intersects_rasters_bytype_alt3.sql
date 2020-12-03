@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION rle_intersects_rasters_bytype_alt3(
 )
 RETURNS TABLE (layer_id varchar) as
     $$
-	SELECT l.id
+    SELECT l.id
     FROM layers AS l
     WHERE l.layer_type = 'raster'
     AND (realm IS null OR realm = l.realm_id)
@@ -19,7 +19,7 @@ RETURNS TABLE (layer_id varchar) as
       SELECT 1
       FROM (
         SELECT rast
-        FROM raster_tiles_bytype as r
+        FROM raster_tiles_bytype_1bb as r
         WHERE r.layer_id = l.id
         AND (occurr IS null OR occurr = r.occurrence)
       ) as rt
