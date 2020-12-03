@@ -17,4 +17,4 @@ BEGIN
   RETURN QUERY SELECT * FROM rle_intersection_size_vectors(poly, realm, biome, layer, occurr);
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersection_size_vectors_poly IS 'Query vector layers that intersect with given polygon';
+COMMENT ON FUNCTION rle_intersection_size_vectors_poly IS 'Return the areas for all vector layers/groups intersecting with a given polygon in text form (WKT), uses rle_intersection_size_vectors'

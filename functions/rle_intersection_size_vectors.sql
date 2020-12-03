@@ -39,4 +39,4 @@ BEGIN
     ORDER BY area DESC;
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersection_size_vectors IS 'Query vector layers that intersect with given polygon geometry';
+COMMENT ON FUNCTION rle_intersection_size_vectors IS 'Calculate the areas for all vecto layers/groups intersecting with a given polygon';;

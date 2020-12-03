@@ -17,4 +17,4 @@ BEGIN
   RETURN QUERY SELECT * FROM rle_intersects_vectors(poly, realm, biome, layer, occurr);
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersects_vectors_poly IS 'Query vector layers that intersect with given polygon';
+COMMENT ON FUNCTION rle_intersects_vectors_poly IS 'Identify vector layers/groups that intersect with given polygon in text form (WKT), uses rle_intersects_vectors';

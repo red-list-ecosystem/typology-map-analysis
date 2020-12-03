@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION rle_intersection_size_rasters_poly(
   layer varchar,
   occurr int
 )
-RETURNS TABLE (layer_id varchar)
+RETURNS TABLE (layer_id varchar, occurrence int, area float)
 LANGUAGE plpgsql
 AS $function$
 DECLARE
@@ -17,4 +17,4 @@ BEGIN
   RETURN QUERY SELECT * FROM rle_intersection_size_rasters(poly, realm, biome, layer, occurr);
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersection_size_rasters_poly IS 'Query vector layers that intersect with given polygon';
+COMMENT ON FUNCTION rle_intersection_size_rasters_poly IS 'Return the areas for all raster layers/groups intersecting with a given polygon in text form (WKT), uses rle_intersection_size_rasters';

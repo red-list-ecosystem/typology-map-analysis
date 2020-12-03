@@ -13,8 +13,8 @@ AS $function$
 DECLARE
   poly Geometry;
 BEGIN
-  poly := (SELECT _ogr_geometry_ FROM eez_land_v3_202030_simplified_10 WHERE ogc_fid = regionid);
+  poly := (SELECT _ogr_geometry_ FROM eez_valid WHERE ogc_fid = regionid);
   RETURN QUERY SELECT * FROM rle_intersection_size_rasters(poly, realm, biome, layer, occurr);
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersection_size_rasters_eez IS 'Query vector layers that intersect with given polygon';
+COMMENT ON FUNCTION rle_intersection_size_rasters_eez IS 'Calculate the areas for all raster layers/groups intersecting with a given eez, uses rle_intersection_size_rasters';

@@ -31,7 +31,7 @@ BEGIN
       eez.ogc_fid as region_id,
       st_intersection(rt.rast, 1, eez._ogr_geometry_) AS gval
     FROM
-      raster_tiles_bytype AS rt,
+      raster_tiles_bytype_1bb AS rt,
       eez_valid AS eez
     WHERE rt.layer_id = l_id
     AND st_intersects(rt.rast, 1, eez._ogr_geometry_)
@@ -40,3 +40,4 @@ BEGIN
   return l_id;
 END;
 $function$;
+COMMENT ON FUNCTION rle_store_areas_for_group_raster IS 'Calculate and store intersecting areas for all eez regions and a given raster layers/groups';

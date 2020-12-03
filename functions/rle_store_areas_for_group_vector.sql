@@ -33,3 +33,4 @@ BEGIN
   return l_id;
 END;
 $function$;
+COMMENT ON FUNCTION rle_store_areas_for_group_vector IS 'Calculate and store intersecting areas for all eez regions and a given vector layers/groups';

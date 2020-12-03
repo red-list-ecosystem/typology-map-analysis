@@ -30,4 +30,4 @@ BEGIN
     );
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersects_vectors IS 'Query vector layers that intersect with given polygon geometry';
+COMMENT ON FUNCTION rle_intersects_vectors IS 'Identify vector layers/groups that intersect with given polygon Geometry';

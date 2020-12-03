@@ -30,18 +30,15 @@ BEGIN
           rt.layer_id,
           rt.occurrence,
           st_intersection(rt.rast, 1, poly) AS gval
-        FROM
-          raster_tiles_bytype AS rt,
-          layers as l
-        WHERE rt.layer_id = l.id
-        AND (realm IS null OR realm = l.realm_id)
-        AND (biome IS null OR biome = l.biome_id)
-        AND (layer IS null OR layer = l.id)
-        AND (occurr IS null OR occurr = rt.occurrence)
-        AND st_intersects(rt.rast, 1, poly)
+        FROM (
+            SELECT intersects.layer_id
+            FROM rle_intersects_rasters(poly, realm, biome, layer, occurr) as intersects
+          ) AS layer_ids,
+          raster_tiles_bytype_1bb AS rt
+        WHERE layer_ids.layer_id = rt.layer_id
       ) AS intersections
     GROUP BY intersections.layer_id, intersections.occurrence
     ORDER BY area DESC;
 END;
 $function$;
-COMMENT ON FUNCTION rle_intersection_size_rasters IS 'Query vector layers that intersect with given polygon geometry';
+COMMENT ON FUNCTION rle_intersection_size_rasters IS 'Calculate the areas for all raster layers/groups intersecting with a given polygon';
